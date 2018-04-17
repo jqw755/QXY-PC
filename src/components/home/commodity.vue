@@ -1,6 +1,7 @@
 <template>
-  <div class="coomodity"  @click="showDetail()">
-    <img :src="commodity.pict_url" alt="" srcset="">
+  <div class="coomodity" :data-id='commodity.num_iid'  @click="showDetail">
+    <!-- <img :src="commodity.pict_url" alt="" srcset=""> -->
+    <img v-lazy="commodity.pict_url" alt="" srcset="">
     <span class="price">券后价： ¥{{commodity.zk_coupon_price}}</span>
     <span class="default-price">原价：¥{{commodity.zk_final_price}}</span>
     <h2>{{commodity.title}}</h2>
@@ -21,11 +22,12 @@ export default {
   },
   props: ["commodity"],
   methods: {
-    showDetail: function() {
+    showDetail: function(e) {
       this.$router.push({
-        name: "detail"
+        path: "/detail?iid=" + this.commodity.num_iid
       });
-      this.$store.state.productDetail = this.commodity;
+      // this.$store.state.productDetail = this.commodity;
+      localStorage.setItem("commodity", JSON.stringify(this.commodity));
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
       window.pageYOffset = 0;
@@ -42,6 +44,7 @@ export default {
   margin-right: 10px;
   margin-bottom: 20px;
   background: #ffffff;
+  border: 1px solid #ffffff;
   img {
     width: 221px;
     height: 221px;
@@ -121,6 +124,7 @@ export default {
 }
 .coomodity:hover {
   cursor: pointer;
+  border: 1px solid #ff6602;
 }
 </style>
 

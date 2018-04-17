@@ -3,7 +3,7 @@
     <div class="nav-header">      
         <div class="nav-top">
             <span class="new">今日上新</span>
-            <span class="index">首页</span>
+            <span class="index"><router-link to="/">首页</router-link></span>
             <!-- <span class="mall">金币商城</span> -->
         </div>
     </div>
@@ -43,17 +43,40 @@ export default {
   data() {
     return {
       tooltip:
-        "此处价格和优惠券面额可能显示有错，请点下面立即领券查看价格为准～～"
+        "此处价格和优惠券面额可能显示有错，请点下面立即领券查看价格为准～～",
+      commodity: [],
+      iid: ""
     };
   },
-  computed: {
-    commodity() {
-      return this.$store.state.productDetail;
+  created() {
+    let iid = this.$utils.getUrlKey("iid");
+    this.iid = iid;
+    this.commodity = JSON.parse(localStorage.getItem("commodity"));
+  },
+  watch: {
+    "$route.query.iid": function(id) {
+      let _this = this;
+      _this.iid = id;
+      _this.commodity = JSON.parse(localStorage.getItem("commodity"));
+      this.$http
+        .get(
+          "https://www.quanxiaoyou.com/public/api/qxy/tbkCouponInfoByNum?numid=" +
+            id
+        )
+        .then(function(res) {
+          _this.commodity = res.data.content;
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+          window.pageYOffset = 0;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     }
   },
   methods: {
     gotoProduct: function() {
-      window.location.href = this.commodity.coupon_click_url;
+      window.open(this.commodity.coupon_click_url);
     }
   }
 };
@@ -119,11 +142,13 @@ export default {
           height: 350px;
           margin-left: 32px;
           h2 {
-            height: 26px;
+            // height: 26px;
             line-height: 26px;
             margin-top: 8px;
             font-size: 20px;
             color: #333333;
+            overflow: hidden; /*内容超出后隐藏*/
+            text-overflow: ellipsis; /* 超出内容显示为省略号*/
           }
           p {
             height: 48px;
@@ -131,6 +156,8 @@ export default {
             margin-top: 10px;
             font-size: 18px;
             color: #333333;
+            overflow: hidden; /*内容超出后隐藏*/
+            text-overflow: ellipsis; /* 超出内容显示为省略号*/
           }
           .price {
             width: 408px;

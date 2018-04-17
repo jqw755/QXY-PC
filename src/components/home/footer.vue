@@ -27,9 +27,11 @@
     position: relative;
     .qrcodeleft {
       width: 130px;
-      height: 155px;
+      height: 100px;
+      line-height: 100px;
       position: absolute;
-      right: 348px;
+      // right: 348px;
+      left: 866px;
       top: 39px;
       .web_logo {
         position: absolute;
@@ -61,7 +63,8 @@
       height: 100px;
       position: absolute;
       top: 28px;
-      right: 228px;
+      left: 1016px;
+      // right: 228px;
     }
   }
   .copyright {

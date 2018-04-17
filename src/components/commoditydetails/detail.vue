@@ -17,6 +17,11 @@ export default {
   data() {
     return {};
   },
+  created() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    window.pageYOffset = 0;
+  }, 
   components: {
     Header,
     Cup,

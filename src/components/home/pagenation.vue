@@ -8,7 +8,7 @@
         <p>转到</p>
         <input type="text" :placeholder="goPage" v-model="goPage"/>
         <p>页</p>
-        <button class="go-page" @click="showPage(goPage)">确定</button>
+        <button class="go-page" @click="showPage()">确定</button>
     </div>
 </template>
 <script>
@@ -19,10 +19,11 @@ export default {
       backClipped: true,
       pages: [1, 2, 3, 4, 5],
       index: 1,
-      currentPage: 1,
+      // currentPage: 1,
       goPage: 1
     };
   },
+  props: ["currentPage"],
   watch: {
     currentPage: "changePages"
   },
@@ -34,18 +35,30 @@ export default {
       if (this.currentPage > 2) {
         this.pages.splice(0, this.pages.length);
         this.pages.push(
-          this.currentPage - 2,
-          this.currentPage - 1,
-          this.currentPage,
-          this.currentPage + 1,
-          this.currentPage + 2
+          parseInt(this.currentPage) - 2,
+          parseInt(this.currentPage) - 1,
+          parseInt(this.currentPage),
+          parseInt(this.currentPage) + 1,
+          parseInt(this.currentPage) + 2
         );
+      }
+      if (this.currentPage == 1) {
+        this.pages = [1, 2, 3, 4, 5];
+      }
+    },
+    showPage: function() {
+      if (this.goPage !== this.currentPage) {
+        this.currentPage = this.goPage;
+        this.$emit("targetPage", this.currentPage);
       }
     },
     goTargetPage: function(index) {
       if (index !== this.currentPage) {
         this.currentPage = index;
         this.$emit("targetPage", this.currentPage);
+        document.body.scrollTop = 600;
+        document.documentElement.scrollTop = 600;
+        window.pageYOffset = 600;
       }
     },
     showNextPage: function() {
@@ -80,6 +93,11 @@ export default {
   }
   .next {
     margin-left: 5px;
+  }
+  .prev:hover,
+  .next:hover,
+  .go-page:hover {
+    cursor: pointer;
   }
   span {
     width: 37px;

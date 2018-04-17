@@ -7,16 +7,8 @@
       </div>
       <div class="list">
         <commodity v-for="(item,index) in commodityList" :key="index" :commodity="item"></commodity>
-        <!-- <commodity></commodity>
-        <commodity></commodity>
-        <commodity></commodity>
-        <commodity></commodity>
-        <commodity></commodity>
-        <commodity></commodity>
-        <commodity></commodity>
-        <commodity></commodity> -->
       </div>
-      <pagenation @targetPage="getTargetPage"></pagenation>
+      <pagenation @targetPage="getTargetPage" :currentPage='page'></pagenation>
   </div>
 </template>
 <script>
@@ -33,6 +25,9 @@ export default {
   created() {
     Bus.$on("getTarget", target => {
       this.commodityList = target;
+    });
+    Bus.$on("pageTarget", target => {
+      this.page = target;
     });
   },
   methods: {

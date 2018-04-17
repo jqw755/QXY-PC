@@ -32,6 +32,10 @@ q:before, q:after {
 	content: '';
 	content: none;
 }
+a{
+	color: #ffffff;
+	text-decoration: none;
+}
 
 /* remember to define focus styles! */
 :focus {

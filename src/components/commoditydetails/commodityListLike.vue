@@ -6,14 +6,6 @@
       </div>
       <div class="list">
         <commodity v-for="(item,index) in commodityListLike" :key="index" :commodity="item"></commodity>
-        <!-- <commodity></commodity>
-        <commodity></commodity>
-        <commodity></commodity>
-        <commodity></commodity>
-        <commodity></commodity>
-        <commodity></commodity>
-        <commodity></commodity>
-        <commodity></commodity> -->
       </div>
   </div>
 </template>

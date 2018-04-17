@@ -4,16 +4,9 @@
           <div class="logo"></div>
           <div class="search-wrap clearfix">
               <input type="text" placeholder="请输入关键词" v-model="keyWord"/>
-              <span @click="searchProducts()">搜索</span>
+              <span @click="searchTaregetProducts()">搜索</span>
               <ul class="clearfix">
-                <li>羽绒服</li>
-                <li>卫衣</li>           
-                <li>保温杯</li>
-                <li>加湿器</li>               
-                <li>打底裤</li>
-                <li>良品铺子</li>               
-                <li>火鸡面</li>
-                <li>除螨仪</li>                   
+                <li v-for="(item,index) in recommendation"  :key="index" @click="product(item)">{{item}}</li>             
               </ul>
           </div>
           <div class="commit">
@@ -39,33 +32,79 @@ export default {
   data() {
     return {
       keyWord: "",
-      currentPage: 1
+      currentPage: 1,
+      recommendation: [
+        "羽绒服",
+        "卫衣",
+        "保温杯",
+        "加湿器",
+        "打底裤",
+        "良品铺子",
+        "火鸡面",
+        "除螨仪"
+      ]
     };
   },
   created() {
+    let _this = this;
+    document.onkeyup = function(e) {
+      if (window.event) e = window.event;
+      var code = e.charCode || e.keyCode;
+      if (code == 13) {
+        _this.searchProducts();
+      }
+    };
+    // if (_this.$route.path == "/") {
+    //   this.searchProducts();
+    // }
     Bus.$on("goTarget", target => {
       this.currentPage = target;
-      document.body.scrollTop = 600;
-      document.documentElement.scrollTop = 600;
-      window.pageYOffset = 600;
+    });
+    Bus.$on("getkeyWord", target => {
+      this.keyWord = target;
     });
     this.searchProducts();
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    window.pageYOffset = 0;
   },
   methods: {
+    searchTaregetProducts: function() {
+      this.currentPage = 1;
+      this.searchProducts();
+      Bus.$emit("pageTarget", this.currentPage);
+    },
     searchProducts: function() {
+      let _this = this;
+
       this.$http
         .get(
           "https://www.quanxiaoyou.com/public/api/qxy/tbkDgItemCouponGetRequest?pageNo=" +
             this.currentPage +
-            "&pageSize=20&q=" +
+            "&pageSize=48&q=" +
             this.keyWord
         )
         .then(function(res) {
           Bus.$emit("getTarget", res.data.content);
+          // if (_this.$route.path == "/detail") {
+          //   _this.$router.push({
+          //     path: "/"
+          //   });
+          // }
         })
         .catch(function(error) {
           console.log(error);
         });
+      document.body.scrollTop = 600;
+      document.documentElement.scrollTop = 600;
+      window.pageYOffset = 600;
+    },
+    product: function(keyWord) {
+      this.keyWord = keyWord;
+      this.searchProducts();
+      document.body.scrollTop = 600;
+      document.documentElement.scrollTop = 600;
+      window.pageYOffset = 600;
     }
   },
   watch: {
