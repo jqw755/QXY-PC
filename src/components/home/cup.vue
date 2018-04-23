@@ -54,9 +54,6 @@ export default {
         _this.searchProducts();
       }
     };
-    // if (_this.$route.path == "/") {
-    //   this.searchProducts();
-    // }
     Bus.$on("goTarget", target => {
       this.currentPage = target;
     });
@@ -86,11 +83,7 @@ export default {
         )
         .then(function(res) {
           Bus.$emit("getTarget", res.data.content);
-          // if (_this.$route.path == "/detail") {
-          //   _this.$router.push({
-          //     path: "/"
-          //   });
-          // }
+          _this.$store.state.productList = res.data.content;
         })
         .catch(function(error) {
           console.log(error);
@@ -101,7 +94,7 @@ export default {
     },
     product: function(keyWord) {
       this.keyWord = keyWord;
-      this.searchProducts();
+      this.searchTaregetProducts();
       document.body.scrollTop = 600;
       document.documentElement.scrollTop = 600;
       window.pageYOffset = 600;

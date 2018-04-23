@@ -10,7 +10,7 @@
     <div class="product-content">
         <div class="product-main">
            <div class="bread">
-               券小优->商品详情
+               券小优 / 商品详情
            </div>
            <div class="product">
                <img :src="commodity.pict_url" alt="">
@@ -65,6 +65,7 @@ export default {
         )
         .then(function(res) {
           _this.commodity = res.data.content;
+
           document.body.scrollTop = 0;
           document.documentElement.scrollTop = 0;
           window.pageYOffset = 0;
@@ -129,7 +130,7 @@ export default {
         height: 64px;
         line-height: 64px;
         font-size: 18px;
-        color: #333333;
+        color: #333333; 
       }
       .product {
         display: flex;

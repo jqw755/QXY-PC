@@ -10,6 +10,7 @@
   </div>
 </template>
 <script>
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 import Bus from "./../../bus.js";
 import commodity from "./../home/commodity.vue";
 export default {
@@ -20,13 +21,22 @@ export default {
   },
   created() {
     Bus.$on("getTarget", target => {
+      console.log(target)
       this.commodityListLike = target;
     });
+    // Bus.$on("getTarget", target => {
+    //   this.commodityListLike = target;
+    // });
   },
   methods: {},
   components: {
     commodity
-  }
+  },
+  // computed: {
+  //   commodityListLike() {
+  //     return this.$store.state.productList;
+  //   }
+  // }
 };
 </script>
 

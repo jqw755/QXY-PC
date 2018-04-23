@@ -1,6 +1,5 @@
-<template>
-  <div class="coomodity" :data-id='commodity.num_iid'  @click="showDetail">
-    <!-- <img :src="commodity.pict_url" alt="" srcset=""> -->
+<template> 
+  <div class="coomodity" :data-id='commodity.num_iid'  @click="showDetail"> 
     <img v-lazy="commodity.pict_url" alt="" srcset="">
     <span class="price">券后价： ¥{{commodity.zk_coupon_price}}</span>
     <span class="default-price">原价：¥{{commodity.zk_final_price}}</span>
@@ -15,7 +14,6 @@
 </template>
 <script>
 import Bus from "./../../bus.js";
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   data() {
     return {};
@@ -23,10 +21,14 @@ export default {
   props: ["commodity"],
   methods: {
     showDetail: function(e) {
-      this.$router.push({
-        path: "/detail?iid=" + this.commodity.num_iid
+      let routeData = this.$router.resolve({
+        name: "detail",
+        query: { iid: this.commodity.num_iid }
       });
-      // this.$store.state.productDetail = this.commodity;
+      window.open(routeData.href, "_blank");
+      // this.$router.push({
+      //   path: "/detail?iid=" + this.commodity.num_iid
+      // });
       localStorage.setItem("commodity", JSON.stringify(this.commodity));
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
